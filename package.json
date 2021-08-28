@@ -1,0 +1,15 @@
+{
+  "name": "censor",
+  "version": "1.0.0",
+  "main": "index_old.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index_old.js"
+  },
+  "dependencies": {
+    "libphonenumber-js": "^1.9.23"
+  },
+  "devDependencies": {
+    "jest": "^27.0.6"
+  }
+}
