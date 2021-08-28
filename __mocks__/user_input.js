@@ -7,6 +7,15 @@ module.exports = {
         'Hej.\n\nHjælper gerne, har samlet mange skabe.\nKan hjælpe fra 2 uge i september.\n\nDe bedste hilsner\nHenrik Kraak Jessen'
     ],
     withPhone: [
+        `Kontakt mig på 
+42
+20
+10
+88 
+
+Så kan vi gennemgå detaljerne 
+
+Mvh Hassan`,
         'hey seven one four three two five zero two is my number',
         'contact me on WhatsApp +918794266304',
         'Hello the quote we will decide at the place. If you are interesting please lets contact 52221218 ',

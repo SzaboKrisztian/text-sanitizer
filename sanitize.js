@@ -94,32 +94,20 @@ function findName(text, firstName, lastName) {
 }
 
 function findPhoneNumbers(text, mask) {
-    const lines = text.split(/\r?\n/);
+    const replacedNumberWords = replaceNumberWords(text);
+    if (!replacedNumberWords.match(/\d+/gi)) {
+        return { found: false }
+    }
 
-    const sanitizedLines = [];
-    lines.forEach(line => {
-        if (!line) {
-            sanitizedLines.push('');
-            return;
-        }
-        
-        const replacedNumberWords = replaceNumberWords(line);
-        if (!replacedNumberWords.match(/\d+/gi)) {
-            sanitizedLines.push(line);
-            return;
-        }
+    const numbers = replacedNumberWords.matchAll(/(?:\d(?:[^\d](?=\d))?){6,}/gi);
+    const matches = Array.from(numbers);
+    let result = text.slice();
+    for (let i = 0; i < matches.length; i += 1) {
+        result = result.substr(0, matches[i].index)
+            + mask.repeat(matches[i][0].length)
+            + result.substr(matches[i].index + matches[i][0].length);
+    }
 
-        const numbers = replacedNumberWords.matchAll(/(?:\d(?:[^\d](?=\d))?){6,}/gi);
-        let sanitizedLine = replacedNumberWords.slice();
-        const test = Array.from(numbers);
-        for (let i = 0; i < test.length; i += 1) {
-            sanitizedLine = sanitizedLine.replace(test[i][0], mask.repeat(test[i][0].length));
-        }
-        
-        sanitizedLines.push(sanitizedLine);
-    });
-
-    const result = sanitizedLines.join('\n');
     if (result.includes(mask)) {
         return {
             sanitized: result,
