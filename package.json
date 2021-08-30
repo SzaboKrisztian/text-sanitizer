@@ -4,12 +4,15 @@
   "main": "index_old.js",
   "license": "MIT",
   "scripts": {
-    "start": "node index_old.js"
+    "start": "node index.js"
   },
-  "dependencies": {
-    "libphonenumber-js": "^1.9.23"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "jest": "^27.0.6"
+    "typescript": "^4.4.2",
+    "@types/node": "^16.7.6",
+    "@types/jest": "^27.0.1",
+    "jest": "^27.0.6",
+    "ts-jest": "^27.0.5",
+    "ts-node": "^10.2.1"
   }
 }

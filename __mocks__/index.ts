@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     validInputs: [
         'Jeg har samlet mange møbler og skabe og senge osv fra IKEA,Dallas og Jysk osv, så ville jeg nok være den rette til opgaven. ',
         'Jeg kan evt godt hjælpe med dette. Skal bare lige sikre mig at der er stige eller stillads til at kunne nå derop. Vh Jonas ',
@@ -41,7 +41,7 @@ Mvh Hassan`,
         'Har mit eget Handymanfirma. Udførte opgaver kan ses på min facebookside: Fokus og Vilje.  Har stor erfaring med at samle IKEA skabe.  Mvh Henrik K. Jessen ',
     ],
     withNames: [
-        { text: 'Hey, I can help fix that. Mvh Santiago Domingo Garcia Perrera de Arroyo', user: { firstName: 'Santiago Domingo Garcia', lastName: 'Perrera de Arroyo' }, expected: 'Santiago A.' },
+        { text: 'Hey, I can help fix that. Mvh Santiago Domingo Garcia Perrera de Arroyo', user: { firstName: 'Santiago Domingo Garcia', lastName: 'Perrera de Arroyo' }, expected: 'Santiago P.' },
         { text: 'Hej Christian, Denne opgave vil jeg rigtig gerne udføre for dig. Jeg er uddannet snedker, så jeg er også kvalificeret. Hilsen Frei Stæhr', user: { firstName: 'Frei', lastName: 'Stæhr' }, expected: 'Frei S.' },
         { text: 'Hej Birgita. Jeg er den rette til opgaven fordi jeg elsker at restaurere træmøbler, og har gjort det i 20 år. Jeg er grundig, effektiv, og elsker at få det bedste ud af træet....hærger det ikke, men får det bedste ud af det. Jeg kan komme tor.14/5, eller man.18/5, og ugen frem. Mvh Katrine Balling', user: { firstName: 'Katrine', lastName: 'Balling' }, expected: 'Katrine B.' },
     ]

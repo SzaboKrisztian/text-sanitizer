@@ -29,7 +29,7 @@ const linkPattern = /(?:(?:https?|ftp):\/{2})?(?:(?:www|ftp)\.)?(?:[a-z0-9]+\.)+
 
 const urlWhitelist = ['ikea.com', 'ilva.dk', 'jysk.dk', 'illumsbolighus.com'];
 
-function sanitize(text, user, restrictWords = true) {
+export function sanitize(text: string, user: { firstName: string, lastName: string }, restrictWords = true) {
     const firstName = user ? user.firstName : undefined;
     const lastName = user ? user.lastName : undefined;
     const original = text.trim();
@@ -60,7 +60,7 @@ function sanitize(text, user, restrictWords = true) {
     }
 }
 
-function findMask(text) {
+function findMask(text: string) {
     for (let i = 0; i < maskChars.length; i += 1) {
         const maskChar = maskChars.substr(i, 1);
         if (!text.includes(maskChar)) {
@@ -70,11 +70,11 @@ function findMask(text) {
     return maskChars.charAt(0);
 }
 
-function findBannedWords(text) {
+function findBannedWords(text: string) {
     return text.match(bannedWords) !== null;
 }
 
-function findName(text, firstName, lastName) {
+function findName(text: string, firstName: string, lastName: string) {
     if (!text || !firstName || !lastName) {
         throw new Error('Missing required parameters');
     }
@@ -83,10 +83,10 @@ function findName(text, firstName, lastName) {
     const first = wordsInFirst.length > 0 ? wordsInFirst[0] : null;
 
     const wordsInLast = lastName.split(/\s|-/);
-    const firstLast = wordsInLast.length > 0 ? wordsInLast[wordsInLast.length - 1] : null;
+    const firstLast = wordsInLast.length > 0 ? wordsInLast[0] : null;
     const lastLast = wordsInLast.length > 0 ? wordsInLast[wordsInLast.length - 1] : null;
     
-    if (!first || !firstLast) {
+    if (!first || !lastLast) {
         return text;
     }
 
@@ -95,13 +95,13 @@ function findName(text, firstName, lastName) {
     return text.replace(matcher, replacement);
 }
 
-function findPhoneNumbers(text, mask) {
+function findPhoneNumbers(text: string, mask: string) {
     const replacedNumberWords = replaceNumberWords(text);
     if (!replacedNumberWords.match(/\d+/gi)) {
         return { found: false }
     }
 
-    const numbers = replacedNumberWords.matchAll(/(?:\d(?:[^\d](?=\d))?){6,}/gi);
+    const numbers: IterableIterator<RegExpMatchArray> = replacedNumberWords.matchAll(/(?:\d(?:[^\d](?=\d))?){6,}/gi);
     const matches = Array.from(numbers);
     let result = text.slice();
     for (let i = 0; i < matches.length; i += 1) {
@@ -122,7 +122,7 @@ function findPhoneNumbers(text, mask) {
     }
 }
 
-function findLinks(text, mask) {
+function findLinks(text: string, mask: string) {
     const links = Array.from(text.matchAll(linkPattern));
     let result = text.slice();
     links.forEach(match => {
@@ -148,8 +148,9 @@ function findLinks(text, mask) {
     }
 }
 
-function findEmail(text, mask) {
-    const mails = Array.from(text.matchAll(emailPattern));
+function findEmail(text: string, mask: string) {
+    const matches: IterableIterator<RegExpMatchArray> = text.matchAll(emailPattern)
+    const mails: RegExpMatchArray[] = Array.from(matches);
     let result = text.slice();
     mails.forEach(match => {
         result = result.substr(0, match.index)
@@ -169,7 +170,7 @@ function findEmail(text, mask) {
     }
 }
 
-function replaceNumberWords(text) {
+function replaceNumberWords(text: string) {
     let result = text;
     Object.keys(numbersMap).sort((a, b) => b.length - a.length).forEach(word => {
         result = result.replace(new RegExp(word, 'gim'), numbersMap[word]);
@@ -177,7 +178,3 @@ function replaceNumberWords(text) {
 
     return result;
 }
-
-module.exports = {
-    sanitize
-};

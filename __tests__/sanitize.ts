@@ -1,7 +1,7 @@
-const { sanitize } = require('../sanitize');
-const mockData = require('../__mocks__/user_input');
+import { sanitize } from '../sanitize';
+import { default as mockData } from '../__mocks__';
 
-const user = { firstName: 'Benicio Monserrate Rafael', lastName: 'del Toro Sánchez' };
+const user = { firstName: 'Benicio Monserrate Rafael', lastName: 'del Toro Sánchez', userId: 666 };
 
 describe('Sanitize tests', () => {
     beforeEach(() => jest.resetAllMocks());
