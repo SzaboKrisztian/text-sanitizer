@@ -81,6 +81,19 @@ describe('Sanitize tests', () => {
         });
     });
 
+    test('It should not restrict mentions of social media with the right flag', () => {
+        mockData.withSocialMedia.forEach(text => {
+            const original = text.trim();
+            const result = sanitize(original, user, false);
+            expect(result).toMatchObject({
+                original,
+                sanitized: original,
+                hasRestrictedContent: false,
+                mask: null,
+            });
+        });
+    });
+
     test('It should shorten the user\'s name', () => {
         mockData.withNames.forEach(entry => {
             const original = entry.text.trim();

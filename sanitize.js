@@ -29,7 +29,7 @@ const linkPattern = /(?:(?:https?|ftp):\/{2})?(?:(?:www|ftp)\.)?(?:[a-z0-9]+\.)+
 
 const urlWhitelist = ['ikea.com', 'ilva.dk', 'jysk.dk', 'illumsbolighus.com'];
 
-function sanitize(text, user) {
+function sanitize(text, user, restrictWords = true) {
     const firstName = user ? user.firstName : undefined;
     const lastName = user ? user.lastName : undefined;
     const original = text.trim();
@@ -42,7 +42,7 @@ function sanitize(text, user) {
     result = emailResult.found ? emailResult.sanitized : result;
     const linkResult = findLinks(result, maskChar);
     result = linkResult.found ? linkResult.sanitized : result;
-    const bannedWords = findBannedWords(result);
+    const bannedWords = restrictWords ? findBannedWords(result) : false;
 
     const hasRestrictedContent = [
         phoneResult.found,
