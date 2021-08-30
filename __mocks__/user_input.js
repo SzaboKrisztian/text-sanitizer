@@ -31,6 +31,12 @@ Mvh Hassan`,
         'Hej.  Jeg hjælper gerne med samling og opsætning af skabet.  Kontakt mig for intetesse.  Mvh Henrik K Jessen  Www.fokusogvilje.dk',
         'Se mere på min side www.fokusogvilje.dk',
     ],
+    withWhitelistedLink: [
+        'Hej.  Jeg hjælper gerne med samling og opsætning af skabet.  Kontakt mig for intetesse.  Mvh Henrik K Jessen  https://www.ikea.com/dk/da/',
+        'Se mere på min side https://ilva.dk/',
+        'Take a look on my website: jysk.dk',
+        'Inspiration til hjemmet https://www.illumsbolighus.com/',
+    ],
     withSocialMedia: [
         'Har mit eget Handymanfirma. Udførte opgaver kan ses på min facebookside: Fokus og Vilje.  Har stor erfaring med at samle IKEA skabe.  Mvh Henrik K. Jessen ',
     ],

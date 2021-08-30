@@ -27,6 +27,8 @@ const bannedWords = /\b(facebook|whatsapp|instagram|telegram)/gim;
 const emailPattern = /[\w\d]+@(?:[\w\d]+\.)+\w{2,}/gim
 const linkPattern = /(?:(?:https?|ftp):\/{2})?(?:(?:www|ftp)\.)?(?:[a-z0-9]+\.)+(?:com|net|org|de|co\.uk|ru|info|top|xyz|se|no|nl|dk)/gim
 
+const urlWhitelist = ['ikea.com', 'ilva.dk', 'jysk.dk', 'illumsbolighus.com'];
+
 function sanitize(text, user) {
     const firstName = user ? user.firstName : undefined;
     const lastName = user ? user.lastName : undefined;
@@ -124,12 +126,17 @@ function findLinks(text, mask) {
     const links = Array.from(text.matchAll(linkPattern));
     let result = text.slice();
     links.forEach(match => {
+        for (let i = 0; i < urlWhitelist.length; i += 1) {
+            if (match[0].includes(urlWhitelist[i])) {
+                return;
+            }
+        }
         result = result.substr(0, match.index)
             + mask.repeat(match[0].length)
             + result.substr(match.index + match[0].length);
     });
 
-    if (links.length > 0) {
+    if (result.includes(mask)) {
         return {
             sanitized: result,
             found: true

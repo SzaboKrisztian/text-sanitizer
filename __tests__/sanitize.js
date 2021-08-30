@@ -58,6 +58,19 @@ describe('Sanitize tests', () => {
         });
     });
 
+    test('It should not restrict web urls from whitelisted domains', () => {
+        mockData.withWhitelistedLink.forEach(text => {
+            const original = text.trim();
+            const result = sanitize(original, user);
+            expect(result).toMatchObject({
+                hasRestrictedContent: false,
+                original,
+                sanitized: original,
+                mask: null
+            });
+        });
+    });
+
     test('It should find and restrict mentions of social media', () => {
         mockData.withSocialMedia.forEach(text => {
             const original = text.trim();
