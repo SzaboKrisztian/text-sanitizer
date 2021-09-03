@@ -1,6 +1,8 @@
 import { sanitize } from '../sanitize';
 import { default as mockData } from '../__mocks__';
 
+const verbose = false;
+
 const user = { firstName: 'Benicio Monserrate Rafael', lastName: 'del Toro Sánchez', userId: 666 };
 
 describe('Sanitize tests', () => {
@@ -29,6 +31,7 @@ describe('Sanitize tests', () => {
             expect(result.sanitized).not.toEqual(original);
             expect(result.mask).toBeTruthy();
             expect(result.sanitized.includes(result.mask)).toBeTruthy();
+            if (verbose) console.log('phone', result);
         });
     });
 
@@ -42,6 +45,7 @@ describe('Sanitize tests', () => {
             expect(result.sanitized).not.toEqual(original);
             expect(result.mask).toBeTruthy();
             expect(result.sanitized.includes(result.mask)).toBeTruthy();
+            if (verbose) console.log('emails', result);
         });
     });
 
@@ -55,6 +59,7 @@ describe('Sanitize tests', () => {
             expect(result.sanitized).not.toEqual(original);
             expect(result.mask).toBeTruthy();
             expect(result.sanitized.includes(result.mask)).toBeTruthy();
+            if (verbose) console.log('links', result);
         });
     });
 
@@ -68,6 +73,7 @@ describe('Sanitize tests', () => {
                 sanitized: original,
                 mask: null
             });
+            if (verbose) console.log('whitelisted links', result);
         });
     });
 
@@ -78,6 +84,7 @@ describe('Sanitize tests', () => {
             expect(result).toMatchObject({
                 hasRestrictedContent: true,
             });
+            if (verbose) console.log('social - restrict', result);
         });
     });
 
@@ -91,6 +98,7 @@ describe('Sanitize tests', () => {
                 hasRestrictedContent: false,
                 mask: null,
             });
+            if (verbose) console.log('social - don\'t restrict', result);
         });
     });
 
@@ -102,6 +110,7 @@ describe('Sanitize tests', () => {
                 hasRestrictedContent: false,
             });
             expect(result.sanitized.includes(entry.expected)).toBeTruthy();
+            if (verbose) console.log('username', result);
         });
     });
 });

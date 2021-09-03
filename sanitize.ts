@@ -25,11 +25,11 @@ const numbersMap = {
 
 const bannedWords = /\b(facebook|whatsapp|instagram|telegram)/gim;
 const emailPattern = /[\w\d]+@(?:[\w\d]+\.)+\w{2,}/gim
-const linkPattern = /(?:(?:https?|ftp):\/{2})?(?:(?:www|ftp)\.)?(?:[a-z0-9]+\.)+(?:com|net|org|de|co\.uk|ru|info|top|xyz|se|no|nl|dk)/gim
+const linkPattern = /(?:(?:https?|ftp):\/{2})?(?:(?:www|ftp)\.)?(?:[a-z0-9\-_]+\.)+(?:com|net|org|de|co\.uk|ru|info|top|xyz|se|no|nl|dk)/gim
 
 const urlWhitelist = ['ikea.com', 'ilva.dk', 'jysk.dk', 'illumsbolighus.com'];
 
-export function sanitize(text: string, user: { firstName: string, lastName: string }, restrictWords = true) {
+export function sanitize(text: string, user?: { firstName: string, lastName: string }, restrictWords = true) {
     const firstName = user ? user.firstName : undefined;
     const lastName = user ? user.lastName : undefined;
     const original = text.trim();

@@ -16,12 +16,15 @@ export default {
 Så kan vi gennemgå detaljerne 
 
 Mvh Hassan`,
+        '71432502 22801348 domain verification=0a126bputs1ea4xmw90n2bxyy2sl1e 71432502 domain verification=0a126bputs1ea4xmw90n2bxyy2sl1e',
         'hey seven one four three two five zero two is my number',
         'contact me on WhatsApp +918794266304',
         'Hello the quote we will decide at the place. If you are interesting please lets contact 52221218 ',
         'Uanset hvilken af de nævnte flytteløsninger  du vælger, vil vi gøre alt for at yde den  bedste service. Lige fra du ringer til os på  52225684 eller skriver til os på email',
         'hvis du selv har bordpladerne på adr. jeg har værktøj kan evt hjælpe til god pris på bordpladerne og hente evt 42420739',
         'Hej Anja  Den opgave kan jeg godt påtage mig. Selvstændig tømrer til daglig. Giv mig et ring imorgen på: 26356093, og vi kan aftale nærmere.  mvh  Kenneth Olsson',
+        '20 nummer 30 4022 ',
+        '20 l 75a22a33 '
     ],
     withEmail: [
         'Uanset hvilken af de nævnte flytteløsninger  du vælger, vil vi gøre alt for at yde den  bedste service. Lige fra du ringer til os på telefon eller skriver til os på  amttransport321@gmail.com',
