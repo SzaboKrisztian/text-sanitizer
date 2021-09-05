@@ -4,7 +4,21 @@ export default {
         'Jeg kan evt godt hjælpe med dette. Skal bare lige sikre mig at der er stige eller stillads til at kunne nå derop. Vh Jonas ',
         'hejsa susanne.   Denne opgave ville ikke være noget problem for sådan en ung frisk mand som mig. elsker havearbejde og lade det blive til et dejligt syn alt kigge på',
         'Hej jeg kan godt fixe de nævnte opgaver for dig vh Allan 🙂',
-        'Hej.\n\nHjælper gerne, har samlet mange skabe.\nKan hjælpe fra 2 uge i september.\n\nDe bedste hilsner\nHenrik Kraak Jessen'
+        'Hej.\n\nHjælper gerne, har samlet mange skabe.\nKan hjælpe fra 2 uge i september.\n\nDe bedste hilsner\nHenrik Kraak Jessen',
+        `Det hjælper jeg gerne med.
+        Har sat rigtig mange lamper op.
+        Måske du burde overveje at sætte ledningsskjulere op.`,
+        `Hej, jeg kunne rigtig godt tænke at få lavet en hems i mit soveværelse, da der ikke er så meget plads.
+        Jeg forstiller mig den skal være 210x140.
+        nedenunder vil jeg gerne have lavet skabsplads med låger, hvor der er kan være et kosteskab, og et andet rum til opbevaring/konserves etc.
+        Der er på nuværende tidspunkt et indbygningskab og en skydedør der skal fjernes.
+        Det hjælper jeg gerne med.
+        Har sat rigtig mange lamper op.
+        Måske du burde overveje at sætte ledningsskjulere op.
+        Jeg hjælper gerne. Men 260 er alt for lidt. Har stor erfaring med at samle disse skabe og det tager omkring 4-5 timer at samle det hele.
+        Se alle mine 5 stjernet anmeldelser her på Pinploy, for reference.
+        De Bedste Hilsner
+         Henrik K`,
     ],
     withPhone: [
         `Kontakt mig på 
@@ -23,12 +37,11 @@ Mvh Hassan`,
         'Uanset hvilken af de nævnte flytteløsninger  du vælger, vil vi gøre alt for at yde den  bedste service. Lige fra du ringer til os på  52225684 eller skriver til os på email',
         'hvis du selv har bordpladerne på adr. jeg har værktøj kan evt hjælpe til god pris på bordpladerne og hente evt 42420739',
         'Hej Anja  Den opgave kan jeg godt påtage mig. Selvstændig tømrer til daglig. Giv mig et ring imorgen på: 26356093, og vi kan aftale nærmere.  mvh  Kenneth Olsson',
-        '20 nummer 30 4022 ',
-        '20 l 75a22a33 '
     ],
     withEmail: [
         'Uanset hvilken af de nævnte flytteløsninger  du vælger, vil vi gøre alt for at yde den  bedste service. Lige fra du ringer til os på telefon eller skriver til os på  amttransport321@gmail.com',
-
+        'Hey skriv til mig paa mitnavn @ adresse . dk',
+        'Drop an email to chris at hotmail dot com'
     ],
     withLink: [
         'Hej.  Jeg hjælper gerne med samling og opsætning af skabet.  Kontakt mig for intetesse.  Mvh Henrik K Jessen  Www.fokusogvilje.dk',

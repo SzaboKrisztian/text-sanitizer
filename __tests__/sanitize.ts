@@ -25,6 +25,9 @@ describe('Sanitize tests', () => {
         mockData.withPhone.forEach(text => {
             const original = text.trim();
             const result = sanitize(original, user);
+            if (!result.hasRestrictedContent) {
+                console.log(text);
+            }
             expect(result).toMatchObject({
                 hasRestrictedContent: true,
             });

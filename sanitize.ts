@@ -23,11 +23,11 @@ const numbersMap = {
     nine: '9999',
 };
 
-const bannedWords = /\b(facebook|whatsapp|instagram|telegram)/gim;
-const emailPattern = /[\w\d]+@(?:[\w\d]+\.)+\w{2,}/gim
+const bannedWords = /\b(facebook|whatsapp|instagram|telegram|mobilepay)/gim;
+const emailPattern = /[\w\d\-.]+\s*(?:@|at)\s*(?:[\w\d\-]+\s*(?:\.|dot)\s*)+\w{2,}/gim
 const linkPattern = /(?:(?:https?|ftp):\/{2})?(?:(?:www|ftp)\.)?(?:[a-z0-9\-_]+\.)+(?:com|net|org|de|co\.uk|ru|info|top|xyz|se|no|nl|dk)/gim
 
-const urlWhitelist = ['ikea.com', 'ilva.dk', 'jysk.dk', 'illumsbolighus.com'];
+const urlWhitelist = ['ikea.com', 'ilva.dk', 'jysk.dk', 'illumsbolighus.com', 'vvs-eksperten.dk', 'elgiganten.dk'];
 
 export function sanitize(text: string, user?: { firstName: string, lastName: string }, restrictWords = true) {
     const firstName = user ? user.firstName : undefined;
@@ -101,7 +101,7 @@ function findPhoneNumbers(text: string, mask: string) {
         return { found: false }
     }
 
-    const numbers: IterableIterator<RegExpMatchArray> = replacedNumberWords.matchAll(/(?:\d(?:[^\d](?=\d))?){6,}/gi);
+    const numbers: IterableIterator<RegExpMatchArray> = replacedNumberWords.matchAll(/(?:\d(?:[^\d](?=\d))?){8,}/gi);
     const matches = Array.from(numbers);
     let result = text.slice();
     for (let i = 0; i < matches.length; i += 1) {
