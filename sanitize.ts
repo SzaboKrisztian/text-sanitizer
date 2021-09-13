@@ -24,30 +24,50 @@ const numbersMap = {
 };
 
 const bannedWords = /\b(facebook|whatsapp|instagram|telegram|mobilepay)/gim;
-const emailPattern = /[\w\d\-.]+\s*(?:@|at)\s*(?:[\w\d\-]+\s*(?:\.|dot)\s*)+\w{2,}/gim
-const linkPattern = /(?:(?:https?|ftp):\/{2})?(?:(?:www|ftp)\.)?(?:[a-z0-9\-_]+\.)+(?:com|net|org|de|co\.uk|ru|info|top|xyz|se|no|nl|dk)/gim
+const emailPattern = /[\w\d\-.]+\s*(?:@)\s*(?:[\w\d\-]+\s*(?:\.)\s*)+\w{2,}/gim
+const linkPattern = /(?:(?:https?|ftp):\/{2})?(?:(?:www|ftp)\.)?(?:[a-z0-9\-_]+\.)+(?:com|net|org|de|co\.uk|ru|info|top|xyz|se|no|nl|dk)\b/gim
 
 const urlWhitelist = ['ikea.com', 'ilva.dk', 'jysk.dk', 'illumsbolighus.com', 'vvs-eksperten.dk', 'elgiganten.dk'];
 
-export function sanitize(text: string, user?: { firstName: string, lastName: string }, restrictWords = true) {
+export function sanitize(text: string, user?: { firstName: string, lastName: string }, restrictWords = true, verbose = false) {
+    if (!text) {
+        return {
+            original: '',
+            sanitized: '',
+            hasRestrictedContent: false,
+            mask: null
+        }
+    }
     const firstName = user ? user.firstName : undefined;
     const lastName = user ? user.lastName : undefined;
     const original = text.trim();
     const maskChar = findMask(original);
 
-    let result = user ? findName(original, firstName, lastName) : original;
+    let result: string = firstName && lastName ? findName(original, firstName, lastName) : original;
     const phoneResult = findPhoneNumbers(result, maskChar);
-    result = phoneResult.found ? phoneResult.sanitized : result;
+    if (verbose) {
+        console.log('Phone:', phoneResult);
+    }
+    result = phoneResult.sanitized ? phoneResult.sanitized : result;
     const emailResult = findEmail(result, maskChar);
-    result = emailResult.found ? emailResult.sanitized : result;
+    if (verbose) {
+        console.log('Email:', emailResult);
+    }
+    result = emailResult.sanitized ? emailResult.sanitized : result;
     const linkResult = findLinks(result, maskChar);
-    result = linkResult.found ? linkResult.sanitized : result;
+    if (verbose) {
+        console.log('Link:', linkResult);
+    }
+    result = linkResult.sanitized ? linkResult.sanitized : result;
     const bannedWords = restrictWords ? findBannedWords(result) : false;
+    if (verbose) {
+        console.log('Words:', bannedWords);
+    }
 
     const hasRestrictedContent = [
-        phoneResult.found,
-        emailResult.found,
-        linkResult.found,
+        phoneResult.sanitized !== undefined,
+        emailResult.sanitized !== undefined,
+        linkResult.sanitized !== undefined,
         bannedWords,
     ].some(found => found === true);
     const mask = hasRestrictedContent ? maskChar : null;
@@ -60,7 +80,7 @@ export function sanitize(text: string, user?: { firstName: string, lastName: str
     }
 }
 
-function findMask(text: string) {
+function findMask(text: string): string {
     for (let i = 0; i < maskChars.length; i += 1) {
         const maskChar = maskChars.substr(i, 1);
         if (!text.includes(maskChar)) {
@@ -74,7 +94,7 @@ function findBannedWords(text: string) {
     return text.match(bannedWords) !== null;
 }
 
-function findName(text: string, firstName: string, lastName: string) {
+function findName(text: string, firstName: string, lastName: string): string {
     if (!text || !firstName || !lastName) {
         throw new Error('Missing required parameters');
     }
@@ -86,7 +106,7 @@ function findName(text: string, firstName: string, lastName: string) {
     const firstLast = wordsInLast.length > 0 ? wordsInLast[0] : null;
     const lastLast = wordsInLast.length > 0 ? wordsInLast[wordsInLast.length - 1] : null;
     
-    if (!first || !lastLast) {
+    if (!first || !firstLast || !lastLast) {
         return text;
     }
 
@@ -107,18 +127,11 @@ function findPhoneNumbers(text: string, mask: string) {
     for (let i = 0; i < matches.length; i += 1) {
         result = result.substr(0, matches[i].index)
             + mask.repeat(matches[i][0].length)
-            + result.substr(matches[i].index + matches[i][0].length);
+            + result.substr(matches[i].index! + matches[i][0].length);
     }
 
-    if (result.includes(mask)) {
-        return {
-            sanitized: result,
-            found: true,
-        }
-    } else {
-        return {
-            found: false,
-        }
+    return {
+        sanitized: result.includes(mask) ? result : undefined
     }
 }
 
@@ -133,18 +146,11 @@ function findLinks(text: string, mask: string) {
         }
         result = result.substr(0, match.index)
             + mask.repeat(match[0].length)
-            + result.substr(match.index + match[0].length);
+            + result.substr(match.index! + match[0].length);
     });
 
-    if (result.includes(mask)) {
-        return {
-            sanitized: result,
-            found: true
-        }
-    } else {
-        return {
-            found: false
-        }
+    return {
+        sanitized: result.includes(mask) ? result : undefined
     }
 }
 
@@ -155,25 +161,18 @@ function findEmail(text: string, mask: string) {
     mails.forEach(match => {
         result = result.substr(0, match.index)
             + mask.repeat(match[0].length)
-            + result.substr(match.index + match[0].length);
+            + result.substr(match.index! + match[0].length);
     });
 
-    if (mails.length > 0) {
-        return {
-            sanitized: result,
-            found: true
-        }
-    } else {
-        return {
-            found: false
-        }
+    return {
+        sanitized: mails.length > 0 ? result : undefined
     }
 }
 
 function replaceNumberWords(text: string) {
     let result = text;
     Object.keys(numbersMap).sort((a, b) => b.length - a.length).forEach(word => {
-        result = result.replace(new RegExp(word, 'gim'), numbersMap[word]);
+        result = result.replace(new RegExp(word, 'gim'), numbersMap[word as keyof typeof numbersMap]);
     });
 
     return result;

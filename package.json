@@ -4,7 +4,7 @@
   "main": "index_old.js",
   "license": "MIT",
   "scripts": {
-    "start": "node index.js"
+    "start": "ts-node index.ts"
   },
   "dependencies": {},
   "devDependencies": {

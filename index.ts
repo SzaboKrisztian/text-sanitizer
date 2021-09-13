@@ -1,7 +1,7 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
-const { sanitize } = require('./sanitize');
+import { sanitize } from './sanitize';
 
 if (require.main === module) {
     if (process.argv.length < 3) {
@@ -14,12 +14,16 @@ if (require.main === module) {
         try {
             fs.accessSync(fullPath);
             const contents = fs.readFileSync(fullPath);
-            const sanitized = sanitize(contents.toString());
+            const sanitized = sanitize(contents.toString(), undefined, true, true);
             console.log(`----------\n${fullPath}\n----------\n`);
             console.log(sanitized);
             console.log(`----------\nHas it been censored? ${sanitized.hasRestrictedContent}\n\n`);
         } catch (error) {
-            console.error(error.message);
+            if (error instanceof Error) {
+                console.error(error.message);
+            } else {
+                console.error('Something went wrong');
+            }
         }
     });
 }
