@@ -24,20 +24,12 @@ const numbersMap = {
 };
 
 const bannedWords = /\b(facebook|whatsapp|instagram|telegram|mobilepay)/gim;
-const emailPattern = /[\w\d\-.]+\s*(?:@)\s*(?:[\w\d\-]+\s*(?:\.)\s*)+\w{2,}/gim
-const linkPattern = /(?:(?:https?|ftp):\/{2})?(?:(?:www|ftp)\.)?(?:[a-z0-9\-_]+\.)+(?:com|net|org|de|co\.uk|ru|info|top|xyz|se|no|nl|dk)\b/gim
+const emailPattern = /[\w\d\-.]+\s*(?:@)\s*(?:[\w\d\-]+\s*(?:\.)\s*)+\w{2,}/gim;
+const linkPattern = /(?:(?:https?|ftp):\/{2})?(?:(?:www|ftp)\.)?(?:[a-z0-9\-_]+\.)+(?:com|net|org|de|co\.uk|ru|info|top|xyz|se|no|nl|dk)/gim;
 
-const urlWhitelist = ['ikea.com', 'ilva.dk', 'jysk.dk', 'illumsbolighus.com', 'vvs-eksperten.dk', 'elgiganten.dk'];
+const urlWhitelist = ['ikea.com', 'ilva.dk', 'jysk.dk', 'illumsbolighus.com', 'vvs-eksperten.dk', 'elgiganten.dk', 'youtube.com'];
 
-export function sanitize(text: string, user?: { firstName: string, lastName: string }, restrictWords = true, verbose = false) {
-    if (!text) {
-        return {
-            original: '',
-            sanitized: '',
-            hasRestrictedContent: false,
-            mask: null
-        }
-    }
+export function sanitize(text: string, user?: { firstName: string, lastName: string }, restrictWords = true) {
     const firstName = user ? user.firstName : undefined;
     const lastName = user ? user.lastName : undefined;
     const original = text.trim();
@@ -45,24 +37,12 @@ export function sanitize(text: string, user?: { firstName: string, lastName: str
 
     let result: string = firstName && lastName ? findName(original, firstName, lastName) : original;
     const phoneResult = findPhoneNumbers(result, maskChar);
-    if (verbose) {
-        console.log('Phone:', phoneResult);
-    }
     result = phoneResult.sanitized ? phoneResult.sanitized : result;
     const emailResult = findEmail(result, maskChar);
-    if (verbose) {
-        console.log('Email:', emailResult);
-    }
     result = emailResult.sanitized ? emailResult.sanitized : result;
     const linkResult = findLinks(result, maskChar);
-    if (verbose) {
-        console.log('Link:', linkResult);
-    }
     result = linkResult.sanitized ? linkResult.sanitized : result;
     const bannedWords = restrictWords ? findBannedWords(result) : false;
-    if (verbose) {
-        console.log('Words:', bannedWords);
-    }
 
     const hasRestrictedContent = [
         phoneResult.sanitized !== undefined,
@@ -110,7 +90,7 @@ function findName(text: string, firstName: string, lastName: string): string {
         return text;
     }
 
-    const matcher = new RegExp(`${first}.*?${lastLast}`, 'gim');
+    const matcher = new RegExp(`${first.replace('.', '\.')}.*?${lastLast.replace('.', '\.')}`, 'gim');
     const replacement = `${first.charAt(0).toUpperCase()}${first.substr(1).toLowerCase()} ${firstLast.charAt(0).toUpperCase()}.`;
     return text.replace(matcher, replacement);
 }
