@@ -27,7 +27,17 @@ const bannedWords = /\b(facebook|whatsapp|instagram|telegram|mobilepay)/gim;
 const emailPattern = /[\w\d\-.]+\s*(?:@)\s*(?:[\w\d\-]+\s*(?:\.)\s*)+\w{2,}/gim;
 const linkPattern = /(?:(?:https?|ftp):\/{2})?(?:(?:www|ftp)\.)?(?:[a-z0-9\-_]+\.)+(?:com|net|org|de|co\.uk|ru|info|top|xyz|se|no|nl|dk)/gim;
 
-const urlWhitelist = ['ikea.com', 'ilva.dk', 'jysk.dk', 'illumsbolighus.com', 'vvs-eksperten.dk', 'elgiganten.dk', 'youtube.com'];
+const urlWhitelist = [
+    'ikea.com',
+    'ilva.dk',
+    'jysk.dk',
+    'illumsbolighus.com',
+    'vvs-eksperten.dk',
+    'elgiganten.dk',
+    'youtube.com',
+    'jemogfix.dk',
+    'philips-hue.com',
+];
 
 export function sanitize(text: string, user?: { firstName: string, lastName: string }, restrictWords = true) {
     const firstName = user ? user.firstName : undefined;
@@ -35,7 +45,7 @@ export function sanitize(text: string, user?: { firstName: string, lastName: str
     const original = text.trim();
     const maskChar = findMask(original);
 
-    let result: string = firstName && lastName ? findName(original, firstName, lastName) : original;
+    let result: string = /*firstName && lastName ? findName(original, firstName, lastName) :*/ original;
     const phoneResult = findPhoneNumbers(result, maskChar);
     result = phoneResult.sanitized ? phoneResult.sanitized : result;
     const emailResult = findEmail(result, maskChar);
