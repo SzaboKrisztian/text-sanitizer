@@ -14,7 +14,7 @@ if (require.main === module) {
         try {
             fs.accessSync(fullPath);
             const contents = fs.readFileSync(fullPath);
-            const sanitized = sanitize(contents.toString(), undefined, true, true);
+            const sanitized = sanitize(contents.toString(), undefined, true);
             console.log(`----------\n${fullPath}\n----------\n`);
             console.log(sanitized);
             console.log(`----------\nHas it been censored? ${sanitized.hasRestrictedContent}\n\n`);

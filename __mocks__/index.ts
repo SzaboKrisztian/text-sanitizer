@@ -40,8 +40,7 @@ Mvh Hassan`,
     ],
     withEmail: [
         'Uanset hvilken af de nævnte flytteløsninger  du vælger, vil vi gøre alt for at yde den  bedste service. Lige fra du ringer til os på telefon eller skriver til os på  amttransport321@gmail.com',
-        'Hey skriv til mig paa mitnavn @ adresse . dk',
-        'Drop an email to chris at hotmail dot com'
+        'Hey skriv til mig paa mitnavn @ adresse . dk'
     ],
     withLink: [
         'Hej.  Jeg hjælper gerne med samling og opsætning af skabet.  Kontakt mig for intetesse.  Mvh Henrik K Jessen  Www.fokusogvilje.dk',
@@ -51,7 +50,7 @@ Mvh Hassan`,
         'Hej.  Jeg hjælper gerne med samling og opsætning af skabet.  Kontakt mig for intetesse.  Mvh Henrik K Jessen  https://www.ikea.com/dk/da/',
         'Se mere på min side https://ilva.dk/',
         'Take a look on my website: jysk.dk',
-        'Inspiration til hjemmet https://www.illumsbolighus.com/',
+        'Inspiration til hjemmet https://www.illumsbolighus.com/238712983719238/something?number=71241231',
     ],
     withSocialMedia: [
         'Har mit eget Handymanfirma. Udførte opgaver kan ses på min facebookside: Fokus og Vilje.  Har stor erfaring med at samle IKEA skabe.  Mvh Henrik K. Jessen ',

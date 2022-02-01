@@ -46,12 +46,12 @@ export function sanitize(text: string, user?: { firstName: string, lastName: str
     const maskChar = findMask(original);
 
     let result: string = /*firstName && lastName ? findName(original, firstName, lastName) :*/ original;
-    const phoneResult = findPhoneNumbers(result, maskChar);
-    result = phoneResult.sanitized ? phoneResult.sanitized : result;
     const emailResult = findEmail(result, maskChar);
     result = emailResult.sanitized ? emailResult.sanitized : result;
     const linkResult = findLinks(result, maskChar);
     result = linkResult.sanitized ? linkResult.sanitized : result;
+    const phoneResult = findPhoneNumbers(result, maskChar);
+    result = phoneResult.sanitized ? phoneResult.sanitized : result;
     const bannedWords = restrictWords ? findBannedWords(result) : false;
 
     const hasRestrictedContent = [
@@ -105,19 +105,32 @@ function findName(text: string, firstName: string, lastName: string): string {
     return text.replace(matcher, replacement);
 }
 
+function getEnd(text: string, matchStart: number): number {
+    const nextSpaceIdx = text.indexOf(' ', matchStart);
+    return nextSpaceIdx === -1 ? text.length : nextSpaceIdx;
+}
+
 function findPhoneNumbers(text: string, mask: string) {
     const replacedNumberWords = replaceNumberWords(text);
     if (!replacedNumberWords.match(/\d+/gi)) {
         return { found: false }
     }
 
+    const links = Array.from(text.matchAll(linkPattern));
+    const linkCoords = links.map(e => ({ start: e.index, end: getEnd(text, e.index) }));
     const numbers: IterableIterator<RegExpMatchArray> = replacedNumberWords.matchAll(/(?:\d(?:[^\d](?=\d))?){8,}/gi);
     const matches = Array.from(numbers);
     let result = text.slice();
     for (let i = 0; i < matches.length; i += 1) {
-        result = result.substr(0, matches[i].index)
-            + mask.repeat(matches[i][0].length)
-            + result.substr(matches[i].index! + matches[i][0].length);
+        const match = matches[i];
+        
+        // We want to avoid censoring numbers inside links
+        const containingLink = linkCoords.find(e => match.index >= e.start && match.index < e.end);
+        if (!containingLink) {
+            result = result.substr(0, match.index)
+                + mask.repeat(match[0].length)
+                + result.substr(match.index! + match[0].length);
+        }
     }
 
     return {
