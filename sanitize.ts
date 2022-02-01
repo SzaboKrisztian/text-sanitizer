@@ -23,7 +23,7 @@ const numbersMap = {
     nine: '9999',
 };
 
-const bannedWords = /\b(facebook|whatsapp|instagram|telegram|mobilepay)/gim;
+const bannedWords = /\b(facebook|whatsapp|instagram|telegram|mobilepay|mobile pay)/gim;
 const emailPattern = /[\w\d\-.]+\s*(?:@)\s*(?:[\w\d\-]+\s*(?:\.)\s*)+\w{2,}/gim;
 const linkPattern = /(?:(?:https?|ftp):\/{2})?(?:(?:www|ftp)\.)?(?:[a-z0-9\-_]+\.)+(?:com|net|org|de|co\.uk|ru|info|top|xyz|se|no|nl|dk)/gim;
 
@@ -107,7 +107,8 @@ function findName(text: string, firstName: string, lastName: string): string {
 
 function getEnd(text: string, matchStart: number): number {
     const nextSpaceIdx = text.indexOf(' ', matchStart);
-    return nextSpaceIdx === -1 ? text.length : nextSpaceIdx;
+    const nextNewLineIdx = text.indexOf('\n', matchStart);
+    return nextSpaceIdx === -1 ? (nextNewLineIdx === -1 ? text.length : nextNewLineIdx) : nextSpaceIdx;
 }
 
 function findPhoneNumbers(text: string, mask: string) {
@@ -123,10 +124,15 @@ function findPhoneNumbers(text: string, mask: string) {
     let result = text.slice();
     for (let i = 0; i < matches.length; i += 1) {
         const match = matches[i];
-        
+
         // We want to avoid censoring numbers inside links
-        const containingLink = linkCoords.find(e => match.index >= e.start && match.index < e.end);
-        if (!containingLink) {
+        const wrappingLink = linkCoords.find(e => 
+            match.index !== undefined 
+            && e.start !== undefined
+            && match.index >= e.start 
+            && match.index < e.end
+        );
+        if (!wrappingLink) {
             result = result.substr(0, match.index)
                 + mask.repeat(match[0].length)
                 + result.substr(match.index! + match[0].length);
